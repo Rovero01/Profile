@@ -17,7 +17,18 @@ export default function Pms(){
         sidebar:0
     })
 
-    let mapper = [
+    let [datax,setDatax]= useState({
+        numbers: generateData()
+    })
+
+    function generateData(){
+        return [
+            [Math.round(Math.random()*48),Math.round(Math.random()*48),Math.round(Math.random()*48),Math.round(Math.random()*48)],
+            [Math.round(Math.random()*48),Math.round(Math.random()*48),Math.round(Math.random()*48)]
+        ]
+    }
+
+    let dataTop = [
         [
             {name: 'On Progress',icon:<RiProgress6Line color="red" size={25}/>},{name: 'Manager Review',icon:<MdRateReview color="red" size={25}/>},
             {name: 'Ready to Review',icon:<TbProgressCheck  color="red" size={25}/>},{name: 'In Review Meeting',icon:<MdGroups  color="red" size={25}/>},
@@ -27,6 +38,8 @@ export default function Pms(){
             {name: 'All Eligible',icon:<MdGroupAdd  color='green' size={25}/>},{name: 'Total All',icon:<FaPeopleRoof color='green' size={25}/>},
         ]
     ]
+
+    let mapper = ['No','FULL NAME', 'DEPARTMENT','POSITION','LEVEL','MANAGER','STATUS', 'REFRESH']
 
     let x ='flex w-fit items-center gap-2 py-2 text-xl ml-1 h-fit duration-300 ease-in'
     let x1 ='translate-x-4 border-l-4 border-green-500 px-7'
@@ -53,7 +66,7 @@ export default function Pms(){
             {/* topbar */}
             <div className="flex justify-end h-[8%]">
                 <div className="flex gap-5 p-3 mr-3">
-                    <div className="flex items-center font-semibold text-xl text-white bg-red-500 px-2 py-3  rounded-full">HRS</div>
+                    <div className="flex items-center font-semibold text-xl text-white bg-red-500 px-2 py-3 rounded-full">HRS</div>
                     <div className="flex flex-col gap-2 font-semibold cursor-pointer">
                         <div className="flex items-center gap-2"> <span>Harvey Reginald Specter</span> <MdOutlineExpandMore size={20}/> </div>
                         <span>Senior Partner</span>
@@ -80,30 +93,33 @@ export default function Pms(){
                         
                         <div className="flex gap-5 items-center">
                             <span className="text-xl font-bold">Performance Period :</span>
-                            <select className="rounded-md border border-gray-300 shadow-md" name="years" id="years">
+                            <select onChange={()=> setDatax({...datax, numbers: generateData()})} className="rounded-md border border-gray-300 shadow-md" name="years" id="years">
                                 {Array(3).fill(null).map((data,index)=>{
                                     return <option value={`${new Date().getFullYear()-index}`}>{new Date().getFullYear()-index}</option>
                                 })}
                             </select>
                         </div>
 
-                        {mapper.map(data2=>{
-                            let numbers =[[Math.round(Math.random()*48),Math.round(Math.random()*48),Math.round(Math.random()*48),Math.round(Math.random()*48)],
-                        [Math.round(Math.random()*48),Math.round(Math.random()*48),Math.round(Math.random()*48)]]
-                            let total = 0
+                        {dataTop.map((data2,index2)=>{
                             return <div className="flex gap-2">{data2.map((data,idx)=> <div className={`flex gap-5 my-2 items-center border border-gray-300 rounded-lg p-4 w-1/4
                                 bg-white`}>
                                 {data.icon}
                                 <div className="flex flex-col">
-                                    <span className="text-xl">{numbers[idx]}</span>
-                                    <span className="text-sm">Employees</span>
-                                    <span className="font-semibold">{data.name}</span>
+                                    <span className="text-lg font-semibold">{ datax.numbers[index2][idx] ? datax.numbers[index2][idx] : datax.numbers.reduce((a,b)=> a + b.reduce((c,d)=> c+d ,0) ,0) }</span>
+                                    <span className="text-sm opacity-60">Employees</span>
+                                    <span className="text-lg font-semibold">{data.name}</span>
                                 
                                 </div>
                             </div>)}</div>
                         }
                         )}
-                 
+
+                        <div className="flex flex-col mt-10 gap-5">
+                            <span className="text-xl font-bold">Company Performance Status</span>
+                            <div className="flex flex-col">
+                                <div className="flex "></div>
+                            </div>
+                        </div>
 
                     </div>
 
