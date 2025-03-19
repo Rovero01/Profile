@@ -31,19 +31,21 @@ export default function Home() {
     body3: false,
   });
 
-  if (scrollY > 200 && open.body2 === false && open.opener == false) {
+  if (scrollY > 120 && open.body2 === false && open.opener == false) {
     setOpen({ ...open, body2: true });
   }
 
   if (scrollY > 900 && open.body3 === false && open.opener == false) {
     setOpen({ ...open, body3: true });
   }
-
+  // bg-[#0d011f]
   return (
-    <div className="flex-col font-sans bg-[#0d011f] text-white h-[20000px] font-poppins">
-      <Opener open={open} />
-      <Topbar open={open} /> 
-      <Content open={open} />
+    <div className="text-white font-sans h-full font-poppins relative bg-black ">
+        {/* <div id="main" className="z-0"></div> */}
+            <Opener open={open} />
+            <div className="sticky top-0 z-40 "><Topbar open={open} /></div>
+            <div className="z-10 pb-40"> <Content open={open} /> </div>
+    
     </div>
   );
 }

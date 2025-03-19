@@ -7,3 +7,23 @@
     width: 20vmin;
     font-size: 2vmin;
 }
+
+#main {
+    position: absolute;
+    /* top: 0;
+    left: 0;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+    filter: blur(1px);
+    -webkit-filter: blur(1px); */
+    background-image: url('../Assets/jpg/background.jpg');
+    background-repeat: no-repeat;
+}
+
+#main::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85); /* Dark overlay (adjust opacity) */
+  }

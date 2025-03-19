@@ -14,7 +14,7 @@ export { default as Mongo } from "./mongo.png";
 export { default as Postgre } from "./postgre.png";
 export { default as Rabbit } from "./rabbit.png";
 export { default as Mysql } from "./mysql.png";
-export { default as Sjw } from "./sjw.avif";
 export { default as Ows } from "./ows.png";
+export { default as Firebase } from "./firebase.png";
 
 
