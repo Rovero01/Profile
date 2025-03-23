@@ -5,8 +5,9 @@ import { TbLayoutDashboardFilled,TbProgressCheck  } from "react-icons/tb";
 import { BsGraphUpArrow, BsPeopleFill } from "react-icons/bs";
 import { LuFiles } from "react-icons/lu";
 import { RiProgress6Line } from "react-icons/ri";
-import { MdRateReview,MdGroups,MdFactCheck,MdSpeakerNotes,MdGroupAdd    } from "react-icons/md";
+import { MdRateReview,MdGroups,MdFactCheck,MdSpeakerNotes,MdGroupAdd,MdRefresh    } from "react-icons/md";
 import { FaPeopleRoof } from "react-icons/fa6";
+import { faker } from '@faker-js/faker';
 
 
 
@@ -18,7 +19,8 @@ export default function Pms(){
     })
 
     let [datax,setDatax]= useState({
-        numbers: generateData()
+        numbers: generateData(),
+        fakeName: generateFakeName()
     })
 
     function generateData(){
@@ -26,6 +28,26 @@ export default function Pms(){
             [Math.round(Math.random()*48),Math.round(Math.random()*48),Math.round(Math.random()*48),Math.round(Math.random()*48)],
             [Math.round(Math.random()*48),Math.round(Math.random()*48),Math.round(Math.random()*48)]
         ]
+    }
+
+    console.log(datax.fakeName)
+
+    function generateFakeName(){
+        let department = ['Data','Engineer','Marketing','Business Analyst','Product']
+        let level = ['Associate','Middle','Senior','Manager','General Manager','Specialist']
+        let status = ['On Progress','Under Review','Done']
+        return Array(10).fill(null).map(data=>{
+            let same = department[Math.round(Math.random()*12 % 4)]
+            let same2 = level[Math.round(Math.random()*12 % 4)]
+            return {
+                name:faker.person.fullName(),
+                manager:faker.person.fullName(),
+                position: `${same2} ${same}`,
+                department: same,
+                level: same2,
+                status: status[Math.round(Math.random()*12 % 2)]
+            }
+        })
     }
 
     let dataTop = [
@@ -39,7 +61,15 @@ export default function Pms(){
         ]
     ]
 
-    let mapper = ['No','FULL NAME', 'DEPARTMENT','POSITION','LEVEL','MANAGER','STATUS', 'REFRESH']
+    let mapper = [
+        {style:'w-[8%]', label:'No'},
+        {style:'w-[13%]', label:'FULL NAME'}, 
+        {style:'w-[13%]', label:'DEPARTMENT'},
+        {style:'w-[13%]', label:'POSITION'},
+        {style:'w-[13%]', label:'LEVEL'},
+        {style:'w-[13%]', label:'MANAGER'},
+        {style:'w-[13%]', label:'STATUS'} ,
+        {style:'w-[13%]', label:<MdRefresh size={25} />  }]
 
     let x ='flex w-fit items-center gap-2 py-2 text-xl ml-1 h-fit duration-300 ease-in'
     let x1 ='translate-x-4 border-l-4 border-green-500 px-7'
@@ -64,9 +94,9 @@ export default function Pms(){
         <div className={` ${trig.more ? 'w-[85%]' : 'w-[98%]'} border ease-in-out duration-500 flex flex-col`}>
 
             {/* topbar */}
-            <div className="flex justify-end h-[8%]">
+            <div className="flex justify-end h-fit">
                 <div className="flex gap-5 p-3 mr-3">
-                    <div className="flex items-center font-semibold text-xl text-white bg-red-500 px-2 py-3 rounded-full">HRS</div>
+                    <div className="flex items-center font-semibold text-xl text-white bg-emerald-500 px-2 py-3 rounded-full">HRS</div>
                     <div className="flex flex-col gap-2 font-semibold cursor-pointer">
                         <div className="flex items-center gap-2"> <span>Harvey Reginald Specter</span> <MdOutlineExpandMore size={20}/> </div>
                         <span>Senior Partner</span>
@@ -75,25 +105,25 @@ export default function Pms(){
             </div>
 
             {/* body */}
-            <div className="bg-sky-50 h-[92%] w-full flex flex-col px-10 py-3">
+            <div className="bg-sky-50 w-full flex flex-col px-10 py-3">
                     {/* part 1 */}
                     <div className="flex flex-col bg-white p-8 gap-8 rounded-lg shadow-md">
                         <div className="flex flex-col gap-2 w-full">
                             <span className="text-2xl">Hi, Harvey Reginald Specter</span>
                             <span className="text-sm">Welcome to Performance Management System</span>
                         </div>
-                        <div className=" rounded-lg w-fit px-3 py-2 bg-red-500 text-white cursor-pointer">
+                        <div className=" rounded-lg w-fit px-3 py-2 bg-emerald-500 text-white cursor-pointer">
                             Start Performance Review
                         </div>
                     </div>
 
                     {/* part 2 */}
 
-                    <div className="flex flex-col mt-10">
+                    <div className="flex flex-col mt-10 mb-5">
                         
                         <div className="flex gap-5 items-center">
                             <span className="text-xl font-bold">Performance Period :</span>
-                            <select onChange={()=> setDatax({...datax, numbers: generateData()})} className="rounded-md border border-gray-300 shadow-md" name="years" id="years">
+                            <select onChange={()=> setDatax({...datax, numbers: generateData(), fakeName: generateFakeName()})} className="rounded-md border border-gray-300 shadow-md" name="years" id="years">
                                 {Array(3).fill(null).map((data,index)=>{
                                     return <option value={`${new Date().getFullYear()-index}`}>{new Date().getFullYear()-index}</option>
                                 })}
@@ -114,10 +144,25 @@ export default function Pms(){
                         }
                         )}
 
-                        <div className="flex flex-col mt-10 gap-5">
+                        <div className="flex flex-col my-10 gap-5">
                             <span className="text-xl font-bold">Company Performance Status</span>
                             <div className="flex flex-col">
-                                <div className="flex "></div>
+                                <div className="flex w-full bg-[#E5F1FD] font-bold text-blue-800">
+                                    {mapper.map(data=><div className={`flex justify-center items-center p-3 ${data.style}`}>{data.label}</div>)}
+                                </div>
+
+                                {datax.fakeName.map((data,index)=>{
+                                    return <div className="flex w-full bg-white text-black border-b border-gray-200">
+                                            <div className="w-[8%]  text-center p-3">{index+1}</div>
+                                            <div className="w-[13%] text-center p-3">{data.name}</div>
+                                            <div className="w-[13%] text-center p-3">{data.department}</div>
+                                            <div className="w-[13%] text-center p-3">{data.position}</div>
+                                            <div className="w-[13%] text-center p-3">{data.level}</div>
+                                            <div className="w-[13%] text-center p-3">{data.manager}</div>
+                                            <div className="w-[13%] text-center p-3">{data.status}</div>
+                                            <div className="w-[13%] flex justify-center items-center "><span className="text-red-500 border border-red-500 rounded-lg cursor-pointer py-1 px-2">details</span></div>
+                                </div>
+                                })}
                             </div>
                         </div>
 

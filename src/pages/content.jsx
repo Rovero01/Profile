@@ -115,7 +115,7 @@ export default function Content({ open }) {
     "Health Care",
     "Telecommunication",
   ]);
-  console.log(feature.title);
+  
   return (
     <div className="w-full h-full flex flex-col gap-20 py-40 px-32">
       <section

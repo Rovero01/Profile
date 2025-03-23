@@ -4,7 +4,7 @@ export default function eCommercePage() {
   return (
     <div className="flex flex-col gap-5 p-10">
       <div>
-        My first E-Commerce Website 
+       E-Commerce Website 
       </div>
       <div className="flex gap-8">
         <img width={"300px"} src={ifrit} alt="" />
